@@ -29,11 +29,7 @@ public class ControladorRuleta {
 
         int premio = apuesta.calcularPremio(giro);
 
-        Resultado resultadoJugada = new Resultado(
-                giro.getNumeroGanador(),
-                giro.getColorGanador(),
-                apuesta,
-                premio);
+        Resultado resultadoJugada = new Resultado(giro.getNumeroGanador(), giro.getColorGanador(), apuesta, premio);
 
         usuario.agregarResultado(resultadoJugada);
 
