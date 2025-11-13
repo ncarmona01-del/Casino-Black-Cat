@@ -1,22 +1,17 @@
 package Modelo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Usuario {
 
     private String nombreUsuario;
     private String contrasena;
     private String nombreCompleto;
     private int saldo;
-    private final List<Resultado> historial;
 
     public Usuario(String nombreUsuario, String contrasena, String nombreCompleto, int saldo) {
         this.nombreUsuario = nombreUsuario;
         this.contrasena = contrasena;
         this.nombreCompleto = nombreCompleto;
         this.saldo = saldo;
-        this.historial = new ArrayList<>();
     }
 
     public Usuario() {
@@ -39,14 +34,6 @@ public class Usuario {
             return true;
         }
         return false;
-    }
-
-    public void agregarResultado(Resultado r) {
-        this.historial.add(r);
-    }
-
-    public List<Resultado> getHistorial() {
-        return this.historial;
     }
 
     public String getNombreUsuario() {

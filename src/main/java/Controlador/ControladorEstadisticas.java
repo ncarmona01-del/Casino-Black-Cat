@@ -2,20 +2,19 @@ package Controlador;
 
 import Modelo.Estadisticas;
 import Modelo.Resultado;
-import Modelo.Usuario;
+import Repositorio.IRepositorioResultados; // Importar
 import java.util.List;
 
 public class ControladorEstadisticas {
 
-    private final ControladorSesion sesion;
+    private final IRepositorioResultados repositorio;
 
-    public ControladorEstadisticas(ControladorSesion sesion) {
-        this.sesion = sesion;
+    public ControladorEstadisticas(IRepositorioResultados repositorio) {
+        this.repositorio = repositorio;
     }
 
     public Estadisticas getEstadisticasUsuario() {
-        Usuario usuario = sesion.getUsuarioActual();
-        List<Resultado> historial = usuario.getHistorial();
+        List<Resultado> historial = repositorio.getHistorial();
         return new Estadisticas(historial);
     }
 }

@@ -3,7 +3,6 @@ package Vista;
 import Controlador.ControladorEstadisticas;
 import Controlador.ControladorResultado;
 import Controlador.ControladorSesion;
-import Modelo.Usuario;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -17,7 +16,7 @@ public class VentanaMenu {
     public VentanaMenu(ControladorSesion sesion) {
         this.sesion = sesion;
 
-        ventana = new JFrame("Menu - Casino Black Cat");
+        ventana = new JFrame("Menu - Casino Black Cat (Versión 08)");
         ventana.setSize(600, 450);
         ventana.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         ventana.setLayout(null);
@@ -39,18 +38,18 @@ public class VentanaMenu {
         botonEstadisticas.setBounds(20, 200, 150, 40);
         ventana.add(botonEstadisticas);
 
-        JButton botonSalir = new JButton("Salir (Cerrar Sesión)");
+        JButton botonSalir = new JButton("Salir");
         botonSalir.setBounds(20, 250, 150, 40);
         ventana.add(botonSalir);
 
         JTextArea areaTexto = new JTextArea();
         areaTexto.setEditable(false);
-        areaTexto.setText("Bienvenido/a al menú principal, " + sesion.getUsuarioActual().getNombreCompleto() + ".\n\n"
-                + "• Jugar: abre la ventana de juego.\n"
-                + "• Ver Perfil: Edita su nombre o recarga saldo.\n"
-                + "• Historial: Muestra sus jugadas previas.\n"
-                + "• Estadísticas: Muestra un resumen de su desempeño.\n"
-                + "• Salir: cierra sesión y vuelve al login.");
+        areaTexto.setText("Bienvenido/a " + sesion.getUsuarioActual().getNombreCompleto() + ".\n\n"
+                + "Esta es la Iteración 08 (Patrón Repositorio).\n"
+                + "Ahora el historial se guarda separado del usuario.\n\n"
+                + "• Jugar: Prueba tu suerte.\n"
+                + "• Historial: Consulta el repositorio de jugadas.\n"
+                + "• Estadísticas: Análisis de datos del repositorio.");
         areaTexto.setBounds(190, 20, 380, 340);
         areaTexto.setBorder(BorderFactory.createEtchedBorder());
         ventana.add(areaTexto);
@@ -62,7 +61,7 @@ public class VentanaMenu {
         botonJugar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                VentanaRuleta ventanaJuego = new VentanaRuleta(sesion, VentanaMenu.this);
+                VentanaRuleta ventanaJuego = new VentanaRuleta(sesion, VentanaMenu.this, sesion.getRepositorio());
             }
         });
 
@@ -70,7 +69,7 @@ public class VentanaMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 VentanaPerfil vistaPerfil = new VentanaPerfil(sesion);
-                actualizarSaldo();
+                actualizarSaldo(); // Por si recarga saldo
             }
         });
 
@@ -100,20 +99,22 @@ public class VentanaMenu {
     }
 
     private void abrirVentanaEstadisticas() {
-        ControladorEstadisticas ctrlStats = new ControladorEstadisticas(sesion);
+        ControladorEstadisticas ctrlStats = new ControladorEstadisticas(sesion.getRepositorio());
         VentanaEstadisticas vistaStats = new VentanaEstadisticas(ctrlStats);
         vistaStats.mostrarVentana();
     }
 
     private void abrirVentanaHistorial() {
-        ControladorResultado ctrlHistorial = new ControladorResultado(sesion);
+        ControladorResultado ctrlHistorial = new ControladorResultado(sesion.getRepositorio());
         VentanaHistorial vistaHistorial = new VentanaHistorial(ctrlHistorial);
         vistaHistorial.mostrarVentana();
     }
 
     public void actualizarSaldo() {
-        etiquetaUsuario.setText("Usuario: " + sesion.getUsuarioActual().getNombreCompleto() +
-                " | Saldo: $" + sesion.getUsuarioActual().getSaldo());
+        if (sesion.hayUsuarioActivo()) {
+            etiquetaUsuario.setText("Usuario: " + sesion.getUsuarioActual().getNombreCompleto() +
+                    " | Saldo: $" + sesion.getUsuarioActual().getSaldo());
+        }
     }
 
     public void mostrarVentana() {

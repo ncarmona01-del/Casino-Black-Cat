@@ -4,14 +4,17 @@ import Modelo.Ruleta;
 import Modelo.Usuario;
 import Modelo.Resultado;
 import Modelo.ApuestaBase;
+import Repositorio.IRepositorioResultados; // Importar
 
 public class ControladorRuleta {
 
     private final Ruleta motorRuleta;
     private final ControladorSesion sesion;
+    private final IRepositorioResultados repositorio;
 
-    public ControladorRuleta(ControladorSesion sesion) {
+    public ControladorRuleta(ControladorSesion sesion, IRepositorioResultados repositorio) {
         this.sesion = sesion;
+        this.repositorio = repositorio; // Guardamos la referencia
         this.motorRuleta = new Ruleta();
     }
 
@@ -26,12 +29,15 @@ public class ControladorRuleta {
         }
 
         Resultado giro = motorRuleta.girar();
-
         int premio = apuesta.calcularPremio(giro);
 
-        Resultado resultadoJugada = new Resultado(giro.getNumeroGanador(), giro.getColorGanador(), apuesta, premio);
+        Resultado resultadoJugada = new Resultado(
+                giro.getNumeroGanador(),
+                giro.getColorGanador(),
+                apuesta,
+                premio);
 
-        usuario.agregarResultado(resultadoJugada);
+        repositorio.guardarResultado(resultadoJugada);
 
         String mensaje;
         if (premio > 0) {

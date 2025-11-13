@@ -1,19 +1,18 @@
 package Controlador;
 
 import Modelo.Resultado;
-import Modelo.Usuario;
+import Repositorio.IRepositorioResultados; // Importar
 import java.util.List;
 
 public class ControladorResultado {
 
-    private final ControladorSesion sesion;
+    private final IRepositorioResultados repositorio;
 
-    public ControladorResultado(ControladorSesion sesion) {
-        this.sesion = sesion;
+    public ControladorResultado(IRepositorioResultados repositorio) {
+        this.repositorio = repositorio;
     }
 
     public List<Resultado> getHistorialUsuarioActual() {
-        Usuario usuario = sesion.getUsuarioActual();
-        return usuario.getHistorial();
+        return repositorio.getHistorial();
     }
 }
