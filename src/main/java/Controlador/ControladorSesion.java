@@ -23,7 +23,7 @@ public class ControladorSesion {
     }
 
     private void cargarUsuariosDePrueba() {
-        usuariosRegistrados.add(new Usuario("nicolas", "1234", "Nicolás Rojas", 1000));
+        usuariosRegistrados.add(new Usuario("nicolas", "1234", "Nicolás Carmona", 1000));
         usuariosRegistrados.add(new Usuario("admin", "admin", "Administrador", 5000));
     }
 
